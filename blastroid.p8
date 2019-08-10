@@ -24,11 +24,11 @@ function draw_stars()
 end
 
 function draw_ship()
-    spr(ship.sprite, 10, 64, 1, 1)
+    spr(ship.sprite, ship.x, ship.y, 1, 1)
 end
 
 stars = {}
-ship = { sprite = 0 }
+ship = { sprite = 0, x = 10, y = 64 }
 t = 0
 
 function _update()
@@ -36,6 +36,7 @@ function _update()
     spawn_stars()
     move_stars()
     clean_up_stars()
+    move_ship()
     fire_ship()
 end
 
@@ -60,6 +61,29 @@ function clean_up_stars()
     for star in pairs(stars) do
         if (star.x < 0) then
             stars[star] = nil
+        end
+    end
+end
+
+function move_ship()
+    if btn(0) then
+        if (ship.x >= 2) then
+            ship.x -= 1
+        end
+    end
+    if btn(1) then
+        if (ship.x <= 118) then
+            ship.x +=1
+        end
+    end
+    if btn(2) then
+        if (ship.y >= 0) then
+            ship.y -= 1
+        end
+    end
+    if btn(3) then
+        if (ship.y <= 120) then
+            ship.y += 1
         end
     end
 end
