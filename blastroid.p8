@@ -65,6 +65,10 @@ function clean_up_stars()
     end
 end
 
+function random_color()
+    return star_colors[ceil(rnd(#star_colors))]
+end
+
 function move_ship()
     if btn(0) then
         if (ship.x >= 2) then
@@ -94,10 +98,6 @@ function fire_ship()
     if (t % sprite_period == 0) then
         ship.sprite = (ship.sprite + 1) % num_sprites
     end
-end
-
-function random_color()
-    return star_colors[ceil(rnd(#star_colors))]
 end
 
 function _init()
