@@ -70,25 +70,28 @@ function random_color()
 end
 
 function move_ship()
+    local speed = 2
     if btn(0) then
-        if (ship.x >= 2) then
-            ship.x -= 1
-        end
+        ship.x -= speed
     end
     if btn(1) then
-        if (ship.x <= 118) then
-            ship.x +=1
-        end
+        ship.x += speed
     end
     if btn(2) then
-        if (ship.y >= 0) then
-            ship.y -= 1
-        end
+        ship.y -= speed
     end
     if btn(3) then
-        if (ship.y <= 120) then
-            ship.y += 1
-        end
+        ship.y += speed
+    end
+    if (ship.x < 1) then
+        ship.x = 1
+    elseif (ship.x > 119) then
+        ship.x = 119
+    end
+    if (ship.y < -1) then
+        ship.y = -1
+    elseif (ship.y > 121) then
+        ship.y = 121
     end
 end
 
