@@ -34,14 +34,9 @@ end
 
 function draw_asteroids()
     for asteroid in pairs(asteroids) do
-        spr(16, asteroid.x, asteroid.y)
+        asteroid.render(asteroid.x, asteroid.y)
     end
 end
-
-stars = {}
-asteroids = {}
-ship = { sprite = 0, x = 10, y = 64, w = 8, h = 4 }
-t = 0
 
 function _update()
     t += 1
@@ -169,6 +164,10 @@ function detect_collisions()
 end
 
 function _init()
+    stars = {}
+    asteroids = {}
+    ship = { sprite = 0, x = 10, y = 64, w = 8, h = 4 }
+    t = 0
     music(0)
 end
 __gfx__
