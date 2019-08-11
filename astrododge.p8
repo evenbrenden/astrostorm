@@ -52,7 +52,7 @@ function _update()
     move_asteroids()
     clean_up_asteroids()
     move_ship()
-    fire_ship()
+    animate_ship()
     detect_bounding_box_collision()
 end
 
@@ -137,7 +137,7 @@ function move_ship()
     end
 end
 
-function fire_ship()
+function animate_ship()
     local num_sprites = 3
     local sprite_period = 2
     if (t % sprite_period == 0) then
