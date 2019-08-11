@@ -11,7 +11,7 @@ spawn_star_every = 3
 star_colors = { 5, 9, 10 }
 
 asteroid_max_speed = 1
-asteroid_min_speed = 4
+asteroid_min_speed = 1
 spawn_asteroid_every = 10
 
 function _draw()
