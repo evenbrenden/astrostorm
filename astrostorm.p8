@@ -18,6 +18,9 @@ function _draw()
     cls()
     draw_objects()
     draw_ship()
+    if state == dead then
+        print_score()
+    end
     rect(0, 0, 127, 127, 7)
 end
 
@@ -29,6 +32,11 @@ end
 
 function draw_ship()
     spr(ship.sprite, ship.x, ship.y)
+end
+
+function print_score()
+    local score = seconds_alive .. " seconds"
+    print(score, 64 - 2*#score, 64 - 2, 9)
 end
 
 function _update()
@@ -156,6 +164,7 @@ end
 function collide()
     sfx(0)
     music(-1)
+    seconds_alive = flr(tick/30)
     tick = 0
     state = dead
 end
