@@ -16,10 +16,10 @@ spawn_asteroid_every = 10
 
 function _draw()
     cls()
-    rect(0, 0, 127, 127, 7)
     draw_stars()
     draw_asteroids()
     draw_ship()
+    rect(0, 0, 127, 127, 7)
 end
 
 function draw_stars()
