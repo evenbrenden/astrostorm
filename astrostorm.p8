@@ -38,8 +38,8 @@ function _update()
     move_objects()
     clean_up_objects()
     move_ship()
-    animate_ship()
     detect_collisions()
+    animate_ship()
     check_death()
 end
 
