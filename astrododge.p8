@@ -97,15 +97,15 @@ function move_ship()
     if btn(3) then
         ship.y += speed
     end
-    if (ship.x < 1) then
-        ship.x = 1
-    elseif (ship.x > 119) then
-        ship.x = 119
+    if (ship.x < 0) then
+        ship.x = 0
+    elseif (ship.x > 128 - ship.w) then
+        ship.x = 128 - ship.w
     end
-    if (ship.y < -1) then
-        ship.y = -1
-    elseif (ship.y > 121) then
-        ship.y = 121
+    if (ship.y < -ship.h/2) then
+        ship.y = -ship.h/2
+    elseif (ship.y > 128 - ship.h*(3/2)) then
+        ship.y = 128 - ship.h*(3/2)
     end
 end
 
