@@ -5,15 +5,6 @@ __lua__
 -- astro storm
 -- by evenbrenden
 
-star_max_speed = 6
-star_min_speed = 1
-spawn_star_every = 3
-star_colors = { 5, 9, 10 }
-
-asteroid_max_speed = 1
-asteroid_min_speed = 1
-spawn_asteroid_every = 10
-
 function _draw()
     cls()
     draw_objects()
@@ -190,7 +181,18 @@ function reset()
 end
 
 function _init()
+
+    star_max_speed = 6
+    star_min_speed = 1
+    spawn_star_every = 3
+    star_colors = { 5, 9, 10 }
+
+    asteroid_max_speed = 1
+    asteroid_min_speed = 1
+    spawn_asteroid_every = 10
+
     live, dead = 0, 1
+
     reset()
 end
 __gfx__
