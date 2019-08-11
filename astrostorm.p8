@@ -9,12 +9,8 @@ function _init()
 
     star_max_speed = 6
     star_min_speed = 1
-    spawn_star_every = 3
+    spawn_star_interval = 3
     star_colors = { 5, 9, 10 }
-
-    asteroid_max_speed = 1
-    asteroid_min_speed = 1
-    spawn_asteroid_every = 10
 
     live, dead = 0, 1
 
@@ -52,6 +48,7 @@ end
 
 function _update()
     tick += 1
+    update_difficulty()
     spawn_stars()
     spawn_asteroids()
     move_objects()
@@ -64,13 +61,25 @@ function _update()
     end
 end
 
+function update_difficulty()
+    local interval = 20
+    if tick % (interval*30) == 0 then
+        asteroid_max_speed += 1
+        asteroid_max_speed += 0.5
+        spawn_asteroid_interval -= 8
+        if spawn_asteroid_interval <= 2 then
+            spawn_asteroid_interval = 2
+        end
+    end
+end
+
 function spawn_stars()
-    if tick % spawn_star_every == 0 then
+    if tick % spawn_star_interval == 0 then
         local colour = random_color()
         objects[{
             x = 128,
             y = rnd(128),
-            speed = rnd(star_max_speed) + star_min_speed,
+            speed = rnd(star_max_speed - star_min_speed) + star_min_speed,
             render = function (x, y) pset(x, y, colour) end,
             collidable = false
         }] = true
@@ -82,13 +91,13 @@ function random_color()
 end
 
 function spawn_asteroids()
-    if tick % spawn_asteroid_every == 0 then
+    if tick % spawn_asteroid_interval == 0 then
         objects[{
             x = 128,
             y = rnd(128),
             w = 8,
             h = 8,
-            speed = rnd(asteroid_max_speed) + asteroid_min_speed,
+            speed = rnd(asteroid_max_speed + asteroid_min_speed) + asteroid_min_speed,
             render = function (x, y) spr(16, x, y) end,
             collidable = true
         }] = true
@@ -203,6 +212,11 @@ function reset_after_a_while()
 end
 
 function reset()
+
+    asteroid_max_speed = 1
+    asteroid_min_speed = 0.5
+    spawn_asteroid_interval = 32
+
     objects = {}
     ship = { sprite = 0, x = 10, y = 64, w = 8, h = 5 }
     tick = 0
