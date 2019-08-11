@@ -19,9 +19,13 @@ end
 
 function _draw()
     cls()
-    draw_objects()
-    draw_ship()
+    if state == live then
+        draw_objects()
+        draw_ship(0)
+    end
     if state == dead then
+        draw_objects()
+        draw_ship(32)
         print_score()
     end
     rect(0, 0, 127, 127, 7)
@@ -33,11 +37,7 @@ function draw_objects()
     end
 end
 
-function draw_ship()
-    local offset = 0
-    if state == dead then
-        offset = 32
-    end
+function draw_ship(offset)
     spr(ship.sprite + offset, ship.x, ship.y)
 end
 
@@ -48,15 +48,22 @@ end
 
 function _update()
     tick += 1
-    update_difficulty()
-    spawn_stars()
-    spawn_asteroids()
-    move_objects()
-    clean_up_objects()
-    move_ship()
-    detect_collisions()
-    animate_ship()
+    if state == live then
+        update_difficulty()
+        spawn_stars()
+        spawn_asteroids()
+        move_objects()
+        clean_up_objects()
+        move_ship()
+        detect_collisions()
+        animate_live_ship()
+    end
     if state == dead then
+        spawn_stars()
+        spawn_asteroids()
+        move_objects()
+        clean_up_objects()
+        animate_dead_ship()
         reset_after_a_while()
     end
 end
@@ -120,10 +127,6 @@ end
 
 function move_ship()
 
-    if state != live then
-        return
-    end
-
     local speed = 2
     if btn(0) then
         ship.x -= speed
@@ -166,11 +169,6 @@ function detect_bounding_box_collision(a, b)
 end
 
 function detect_collisions()
-
-    if state != live then
-        return
-    end
-
     for object in pairs(objects) do
         if object.collidable and detect_bounding_box_collision(ship, object) then
             collide()
@@ -186,18 +184,18 @@ function collide()
     state = dead
 end
 
-function animate_ship()
+function animate_live_ship()
     local num_live_sprites = 4
-    local num_dead_sprites = 4
     local live_interval = 4
+    if tick % live_interval == 0 then
+        ship.sprite = (ship.sprite + 1) % num_live_sprites
+    end
+end
+
+function animate_dead_ship()
+    local num_dead_sprites = 4
     local dead_interval = 1
     if
-        state == live and
-        tick % live_interval == 0
-    then
-        ship.sprite = (ship.sprite + 1) % num_live_sprites
-    elseif
-        state == dead and
         tick % dead_interval == 0 and
         tick <= num_dead_sprites
     then
