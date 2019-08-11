@@ -32,7 +32,7 @@ function draw_ship()
 end
 
 function _update()
-    live_time += 1
+    tick += 1
     spawn_stars()
     spawn_asteroids()
     move_objects()
@@ -44,20 +44,20 @@ function _update()
 end
 
 function spawn_stars()
-    if live_time % spawn_star_every == 0 then
+    if tick % spawn_star_every == 0 then
         local colour = random_color()
         objects[{
             x = 128,
             y = rnd(128),
             speed = rnd(star_max_speed) + star_min_speed,
             render = function (x, y) pset(x, y, colour) end,
-            collide = false
+            collidable = false
         }] = true
     end
 end
 
 function spawn_asteroids()
-    if live_time % spawn_asteroid_every == 0 then
+    if tick % spawn_asteroid_every == 0 then
         objects[{
             x = 128,
             y = rnd(128),
@@ -65,7 +65,7 @@ function spawn_asteroids()
             h = 8,
             speed = rnd(asteroid_max_speed) + asteroid_min_speed,
             render = function (x, y) spr(16, x, y) end,
-            collide = true
+            collidable = true
         }] = true
     end
 end
@@ -86,7 +86,7 @@ end
 
 function move_ship()
 
-    if not ship.alive then
+    if state != live then
         return
     end
 
@@ -118,10 +118,10 @@ end
 
 function animate_ship()
     local num_sprites = 3
-    if ship.alive then
+    if state == live then
         ship.sprite = (ship.sprite + 1) % num_sprites
-    elseif dead_time <= 2 then
-        ship.sprite = 3 + dead_time
+    elseif state == dead and tick <= 2 then
+        ship.sprite = 3 + tick
     end
 end
 
@@ -142,12 +142,12 @@ end
 
 function detect_collisions()
 
-    if not ship.alive then
+    if state != live then
         return
     end
 
     for object in pairs(objects) do
-        if object.collide and detect_bounding_box_collision(ship, object) then
+        if object.collidable and detect_bounding_box_collision(ship, object) then
             collide()
         end
     end
@@ -156,15 +156,13 @@ end
 function collide()
     sfx(0)
     music(-1)
-    ship.alive = false
+    tick = 0
+    state = dead
 end
 
 function check_death()
-    if not ship.alive then
-        dead_time += 1
-        if dead_time == 4*30 then
-            reset()
-        end
+    if state == dead and tick >= 4*30 then
+        reset()
     end
 end
 
@@ -174,13 +172,14 @@ end
 
 function reset()
     objects = {}
-    ship = { sprite = 0, x = 10, y = 64, w = 8, h = 4, alive = true }
-    live_time = 0
-    dead_time = 0
+    ship = { sprite = 0, x = 10, y = 64, w = 8, h = 4 }
+    tick = 0
     music(0)
+    state = live
 end
 
 function _init()
+    live, dead = 0, 1
     reset()
 end
 __gfx__
