@@ -43,7 +43,7 @@ function _update()
 end
 
 function spawn_stars()
-    if (t % spawn_star_every == 0) then
+    if t % spawn_star_every == 0 then
         local colour = random_color()
         objects[{
             x = 128,
@@ -56,7 +56,7 @@ function spawn_stars()
 end
 
 function spawn_asteroids()
-    if (t % spawn_asteroid_every == 0) then
+    if t % spawn_asteroid_every == 0 then
         objects[{
             x = 128,
             y = rnd(128),
@@ -77,7 +77,7 @@ end
 
 function clean_up_objects()
     for object in pairs(objects) do
-        if (object.x < 0) then
+        if object.x < 0 then
             objects[object] = nil
         end
     end
@@ -103,14 +103,14 @@ function move_ship()
         ship.y += speed
     end
 
-    if (ship.x < 0) then
+    if ship.x < 0 then
         ship.x = 0
-    elseif (ship.x > 128 - ship.w) then
+    elseif ship.x > 128 - ship.w then
         ship.x = 128 - ship.w
     end
-    if (ship.y < -ship.h/2) then
+    if ship.y < -ship.h/2 then
         ship.y = -ship.h/2
-    elseif (ship.y > 128 - ship.h*(3/2)) then
+    elseif ship.y > 128 - ship.h*(3/2) then
         ship.y = 128 - ship.h*(3/2)
     end
 end
