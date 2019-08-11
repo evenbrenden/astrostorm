@@ -48,7 +48,9 @@ function _update()
     move_ship()
     detect_collisions()
     animate_ship()
-    check_death()
+    if state == dead then
+        reset_after_a_while()
+    end
 end
 
 function spawn_stars()
@@ -169,8 +171,8 @@ function collide()
     state = dead
 end
 
-function check_death()
-    if state == dead and tick >= 4*30 then
+function reset_after_a_while()
+    if tick >= 4*30 then
         reset()
     end
 end
