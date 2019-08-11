@@ -16,15 +16,14 @@ spawn_asteroid_every = 10
 
 function _draw()
     cls()
-    draw_stars()
-    draw_asteroids()
+    draw_objects()
     draw_ship()
     rect(0, 0, 127, 127, 7)
 end
 
-function draw_stars()
-    for star in pairs(stars) do
-        pset(star.x, star.y, star.colour)
+function draw_objects()
+    for object in pairs(objects) do
+        object.render(object.x, object.y)
     end
 end
 
@@ -32,20 +31,12 @@ function draw_ship()
     spr(ship.sprite, ship.x, ship.y)
 end
 
-function draw_asteroids()
-    for asteroid in pairs(asteroids) do
-        asteroid.render(asteroid.x, asteroid.y)
-    end
-end
-
 function _update()
     t += 1
     spawn_stars()
-    move_stars()
-    clean_up_stars()
     spawn_asteroids()
-    move_asteroids()
-    clean_up_asteroids()
+    move_objects()
+    clean_up_objects()
     move_ship()
     animate_ship()
     detect_collisions()
@@ -53,55 +44,41 @@ end
 
 function spawn_stars()
     if (t % spawn_star_every == 0) then
-        stars[{
+        local colour = random_color()
+        objects[{
             x = 128,
             y = rnd(128),
             speed = rnd(star_max_speed) + star_min_speed,
-            colour = random_color()
+            render = function (x, y) pset(x, y, colour) end,
+            collide = false
         }] = true
     end
 end
 
-function move_stars()
-    for star in pairs(stars) do
-        star.x -= star.speed
-    end
-end
-
-function clean_up_stars()
-    for star in pairs(stars) do
-        if (star.x < 0) then
-            stars[star] = nil
-        end
-    end
-end
-
-function random_color()
-    return star_colors[ceil(rnd(#star_colors))]
-end
-
 function spawn_asteroids()
     if (t % spawn_asteroid_every == 0) then
-        asteroids[{
+        objects[{
             x = 128,
             y = rnd(128),
             w = 8,
             h = 8,
             speed = rnd(asteroid_max_speed) + asteroid_min_speed,
+            render = function (x, y) spr(16, x, y) end,
+            collide = true
         }] = true
     end
 end
 
-function move_asteroids()
-    for asteroid in pairs(asteroids) do
-        asteroid.x -= asteroid.speed
+function move_objects()
+    for object in pairs(objects) do
+        object.x -= object.speed
     end
 end
 
-function clean_up_asteroids()
-    for asteroid in pairs(asteroids) do
-        if (asteroid.x < 0) then
-            asteroids[asteroid] = nil
+function clean_up_objects()
+    for object in pairs(objects) do
+        if (object.x < 0) then
+            objects[object] = nil
         end
     end
 end
@@ -156,16 +133,19 @@ function detect_bounding_box_collision(a, b)
 end
 
 function detect_collisions()
-    for asteroid in pairs(asteroids) do
-        if (detect_bounding_box_collision(ship, asteroid)) then
+    for object in pairs(objects) do
+        if object.collide and detect_bounding_box_collision(ship, object) then
             sfx(0)
         end
     end
 end
 
+function random_color()
+    return star_colors[ceil(rnd(#star_colors))]
+end
+
 function _init()
-    stars = {}
-    asteroids = {}
+    objects = {}
     ship = { sprite = 0, x = 10, y = 64, w = 8, h = 4 }
     t = 0
     music(0)
