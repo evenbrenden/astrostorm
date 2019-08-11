@@ -32,7 +32,7 @@ function draw_ship()
 end
 
 function _update()
-    t += 1
+    live_time += 1
     spawn_stars()
     spawn_asteroids()
     move_objects()
@@ -40,10 +40,11 @@ function _update()
     move_ship()
     animate_ship()
     detect_collisions()
+    check_death()
 end
 
 function spawn_stars()
-    if t % spawn_star_every == 0 then
+    if live_time % spawn_star_every == 0 then
         local colour = random_color()
         objects[{
             x = 128,
@@ -56,7 +57,7 @@ function spawn_stars()
 end
 
 function spawn_asteroids()
-    if t % spawn_asteroid_every == 0 then
+    if live_time % spawn_asteroid_every == 0 then
         objects[{
             x = 128,
             y = rnd(128),
@@ -119,10 +120,8 @@ function animate_ship()
     local num_sprites = 3
     if ship.alive then
         ship.sprite = (ship.sprite + 1) % num_sprites
-        dead_frames = 0
-    elseif dead_frames <= 2 then
-        ship.sprite = 3 + dead_frames
-        dead_frames += 1
+    elseif dead_time <= 2 then
+        ship.sprite = 3 + dead_time
     end
 end
 
@@ -160,15 +159,29 @@ function collide()
     ship.alive = false
 end
 
+function check_death()
+    if not ship.alive then
+        dead_time += 1
+        if dead_time == 4*30 then
+            reset()
+        end
+    end
+end
+
 function random_color()
     return star_colors[ceil(rnd(#star_colors))]
 end
 
-function _init()
+function reset()
     objects = {}
     ship = { sprite = 0, x = 10, y = 64, w = 8, h = 4, alive = true }
-    t = 0
+    live_time = 0
+    dead_time = 0
     music(0)
+end
+
+function _init()
+    reset()
 end
 __gfx__
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
