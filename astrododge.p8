@@ -124,10 +124,10 @@ function detect_bounding_box_collision(a, b)
     local real_b_x = b.x + (8 - b.w)/2
     local real_b_y = b.y + (8 - b.h)/2
 
-    x_dist = abs((real_a_x + a.w/2) - (real_b_x + b.w/2))
-    y_dist = abs((real_a_y + a.h/2) - (real_b_y + b.h/2))
-    x_sum = a.w/2 + b.w/2
-    y_sum = a.h/2 + b.h/2
+    local x_dist = abs((real_a_x + a.w/2) - (real_b_x + b.w/2))
+    local y_dist = abs((real_a_y + a.h/2) - (real_b_y + b.h/2))
+    local x_sum = a.w/2 + b.w/2
+    local y_sum = a.h/2 + b.h/2
 
     return x_dist < x_sum and y_dist < y_sum
 end
