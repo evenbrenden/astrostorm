@@ -5,6 +5,22 @@ __lua__
 -- astro storm
 -- by evenbrenden
 
+function _init()
+
+    star_max_speed = 6
+    star_min_speed = 1
+    spawn_star_every = 3
+    star_colors = { 5, 9, 10 }
+
+    asteroid_max_speed = 1
+    asteroid_min_speed = 1
+    spawn_asteroid_every = 10
+
+    live, dead = 0, 1
+
+    reset()
+end
+
 function _draw()
     cls()
     draw_objects()
@@ -55,6 +71,10 @@ function spawn_stars()
             collidable = false
         }] = true
     end
+end
+
+function random_color()
+    return star_colors[ceil(rnd(#star_colors))]
 end
 
 function spawn_asteroids()
@@ -117,15 +137,6 @@ function move_ship()
     end
 end
 
-function animate_ship()
-    local num_sprites = 3
-    if state == live then
-        ship.sprite = (ship.sprite + 1) % num_sprites
-    elseif state == dead and tick <= 2 then
-        ship.sprite = 3 + tick
-    end
-end
-
 function detect_bounding_box_collision(a, b)
 
     local real_a_x = a.x + (8 - a.w)/2
@@ -162,14 +173,19 @@ function collide()
     state = dead
 end
 
+function animate_ship()
+    local num_sprites = 3
+    if state == live then
+        ship.sprite = (ship.sprite + 1) % num_sprites
+    elseif state == dead and tick <= 2 then
+        ship.sprite = 3 + tick
+    end
+end
+
 function reset_after_a_while()
     if tick >= 4*30 then
         reset()
     end
-end
-
-function random_color()
-    return star_colors[ceil(rnd(#star_colors))]
 end
 
 function reset()
@@ -178,22 +194,6 @@ function reset()
     tick = 0
     music(0)
     state = live
-end
-
-function _init()
-
-    star_max_speed = 6
-    star_min_speed = 1
-    spawn_star_every = 3
-    star_colors = { 5, 9, 10 }
-
-    asteroid_max_speed = 1
-    asteroid_min_speed = 1
-    spawn_asteroid_every = 10
-
-    live, dead = 0, 1
-
-    reset()
 end
 __gfx__
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
