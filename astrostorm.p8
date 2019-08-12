@@ -57,7 +57,10 @@ function draw_ship(offset)
 end
 
 function print_score()
-    local score = seconds_alive .. " seconds"
+    local score = "u lasted " .. seconds_alive .. " seconds"
+    if seconds_alive >= 120 then
+        score = "wow " .. score .. "!"
+    end
     print(score, 64 - 2*#score, 64 - 2, 9)
 end
 
