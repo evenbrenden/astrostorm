@@ -88,21 +88,24 @@ function _update()
         move_objects()
         clean_up_objects()
         animate_dead_ship()
-        reset_after_a_while()
+        allow_reset_after_a_while()
     end
 end
 
 function start_game()
-    if
+    if any_btn() then
+        reset()
+    end
+end
+
+function any_btn()
+    return
         btn(0) or
         btn(1) or
         btn(2) or
         btn(3) or
         btn(4) or
         btn(5)
-    then
-        reset()
-    end
 end
 
 function update_difficulty()
@@ -238,8 +241,8 @@ function animate_dead_ship()
     end
 end
 
-function reset_after_a_while()
-    if tick >= 3*30 then
+function allow_reset_after_a_while()
+    if tick >= 1*30 and any_btn() then
         music(0)
         reset()
     end
