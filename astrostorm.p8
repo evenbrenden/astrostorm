@@ -39,11 +39,11 @@ function _draw()
 end
 
 function draw_title()
-    local vertical_offset = 20
+    local vertical_offset = 26
     spr(64, 32, vertical_offset, 8, 8)
     spr(72, 32, 32 + vertical_offset, 8, 8)
-    local msg = "press any key to start"
-    print(msg, 64 - 2*#msg, 84 + vertical_offset, 9)
+    local msg = "hit any key 2 start"
+    print(msg, 64 - 2*#msg, 79 + vertical_offset, 9)
 end
 
 function draw_objects()
