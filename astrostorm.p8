@@ -180,15 +180,15 @@ function move_ship()
         ship.y += speed
     end
 
-    if ship.x < 0 then
-        ship.x = 0
-    elseif ship.x > 128 - ship.w then
-        ship.x = 128 - ship.w
+    if ship.x < 1 then
+        ship.x = 1
+    elseif ship.x >= 127 - ship.w then
+        ship.x = 127 - ship.w
     end
-    if ship.y < -ship.h/2 then
-        ship.y = -ship.h/2
-    elseif ship.y > 128 - ship.h*(3/2) then
-        ship.y = 128 - ship.h*(3/2)
+    if ship.y < flr((8 - ship.h)/2) then
+        ship.y = flr((8 - ship.h)/2) - 1
+    elseif ship.y > 127 - ship.h - flr((8 - ship.h)/2) then
+        ship.y = 127 - ship.h - flr((8 - ship.h)/2)
     end
 end
 
