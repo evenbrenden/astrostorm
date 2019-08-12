@@ -108,7 +108,7 @@ end
 function update_difficulty()
     local interval = 15*30
     if tick % interval == 0 and tick != 0 then
-        asteroid_max_speed = 0.5
+        asteroid_max_speed += 0.5
         asteroid_max_speed = min(asteroid_max_speed, 4)
         asteroid_min_speed += 0.25
         asteroid_min_speed = min(asteroid_min_speed, 4)
