@@ -125,6 +125,8 @@ function spawn_stars()
         objects[{
             x = 128,
             y = rnd(128),
+            w = 1,
+            h = 1,
             speed = rnd(star_max_speed - star_min_speed) + star_min_speed,
             render = function (x, y) pset(x, y, colour) end,
             collidable = false
