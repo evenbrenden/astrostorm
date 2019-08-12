@@ -241,7 +241,7 @@ function animate_dead_ship()
 end
 
 function reset_after_a_while()
-    if tick >= 4*30 then
+    if tick >= 3*30 then
         music(0)
         reset()
     end
