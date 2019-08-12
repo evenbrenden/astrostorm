@@ -23,8 +23,8 @@ end
 function _draw()
     cls()
     if state == splash then
-        draw_title()
         draw_objects()
+        draw_title()
     end
     if state == live then
         draw_objects()
