@@ -42,7 +42,7 @@ function draw_title()
     local vertical_offset = 26
     spr(64, 32, vertical_offset, 8, 8)
     spr(72, 32, 32 + vertical_offset, 8, 8)
-    local msg = "hit any key 2 start"
+    local msg = "arrows only go 4 it"
     print(msg, 64 - 2*#msg, 79 + vertical_offset, 9)
 end
 
