@@ -58,7 +58,7 @@ end
 
 function print_score()
     local score = "u lasted " .. seconds_alive .. " seconds"
-    if seconds_alive >= 120 then
+    if seconds_alive >= 60 then
         score = "wow " .. score .. "!"
     end
     print(score, 64 - 2*#score, 64 - 2, 9)
@@ -109,12 +109,11 @@ function update_difficulty()
     local interval = 15*30
     if tick % interval == 0 and tick != 0 then
         asteroid_max_speed += 0.5
-        asteroid_max_speed = min(asteroid_max_speed, 4)
         asteroid_min_speed += 0.25
-        asteroid_min_speed = min(asteroid_min_speed, 4)
-        spawn_asteroid_interval -= 5
-        if spawn_asteroid_interval <= 4 then
-            spawn_asteroid_interval = 4
+        if spawn_asteroid_interval > 5 then
+            spawn_asteroid_interval -= 5
+        else
+            spawn_asteroid_interval = max(spawn_asteroid_interval - 1, 1)
         end
     end
 end
@@ -248,9 +247,9 @@ end
 
 function reset()
 
-    asteroid_max_speed = 1
-    asteroid_min_speed = 0.5
-    spawn_asteroid_interval = 30
+    asteroid_max_speed = 1.5
+    asteroid_min_speed = 1
+    spawn_asteroid_interval = 20
 
     objects = {}
     ship = { sprite = 0, x = 10, y = 64, w = 8, h = 5 }
