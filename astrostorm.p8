@@ -106,13 +106,15 @@ function start_game()
 end
 
 function update_difficulty()
-    local interval = 20
-    if tick % (interval*30) == 0 then
-        asteroid_max_speed += 1
-        asteroid_max_speed += 0.5
-        spawn_asteroid_interval -= 8
-        if spawn_asteroid_interval <= 2 then
-            spawn_asteroid_interval = 2
+    local interval = 15*30
+    if tick % interval == 0 and tick != 0 then
+        asteroid_max_speed = 0.5
+        asteroid_max_speed = min(asteroid_max_speed, 4)
+        asteroid_min_speed += 0.25
+        asteroid_min_speed = min(asteroid_min_speed, 4)
+        spawn_asteroid_interval -= 5
+        if spawn_asteroid_interval <= 4 then
+            spawn_asteroid_interval = 4
         end
     end
 end
@@ -251,7 +253,7 @@ function reset()
 
     asteroid_max_speed = 1
     asteroid_min_speed = 0.5
-    spawn_asteroid_interval = 32
+    spawn_asteroid_interval = 30
 
     objects = {}
     ship = { sprite = 0, x = 10, y = 64, w = 8, h = 5 }
