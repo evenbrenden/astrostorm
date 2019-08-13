@@ -1,1 +1,1 @@
-![ASTRO STORM](astrostorm.png)
+![Astro Storm](astrostorm.png)
