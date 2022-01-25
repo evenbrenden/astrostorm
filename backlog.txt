@@ -1,3 +1,4 @@
 -Vary projectiles by making more sprites and assigning them to different speeds.
+-Maybe also give them some animations, like rotations or just some noise.
 -Add persistent high score and have dead state messages depend on it.
--Change the theme to something a bit less generic, like, idk, Shitstorm.
+-Change the theme to something a bit less generic, like, IDK, Shitstorm.
